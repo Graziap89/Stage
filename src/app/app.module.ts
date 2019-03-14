@@ -17,6 +17,7 @@ import { ChartDemoComponent } from './ng2-charts/chart-demo.component';
 import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
+import { D3ChartsComponent } from './d3-charts/d3-charts.component';
 
 @NgModule({
   imports: [
@@ -42,7 +43,8 @@ import { HomeComponent } from './home/home.component';
     ChartDemoComponent,
     SidebarComponent,
     HeaderComponent,
-    HomeComponent
+    HomeComponent,
+    D3ChartsComponent
   ],
   providers: [RestService],
   bootstrap: [ AppComponent ]
