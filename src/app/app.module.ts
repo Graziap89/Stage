@@ -18,6 +18,9 @@ import { SidebarComponent } from './sidebar/sidebar.component';
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { D3ChartsComponent } from './d3-charts/d3-charts.component';
+import { Ng2Component } from './ng2/ng2.component';
+import {NgDygraphsModule} from 'ng-dygraphs';
+import { NgDygraphsComponent } from './ng-dygraphs/ng-dygraphs.component';
 
 @NgModule({
   imports: [
@@ -26,6 +29,7 @@ import { D3ChartsComponent } from './d3-charts/d3-charts.component';
     AppRoutingModule,
     HttpClientModule,
     ChartModule,
+    NgDygraphsModule,
     // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
     // and returns simulated server responses.
     // Remove it when a real server is ready to receive requests.
@@ -44,7 +48,9 @@ import { D3ChartsComponent } from './d3-charts/d3-charts.component';
     SidebarComponent,
     HeaderComponent,
     HomeComponent,
-    D3ChartsComponent
+    D3ChartsComponent,
+    Ng2Component,
+    NgDygraphsComponent
   ],
   providers: [RestService],
   bootstrap: [ AppComponent ]
