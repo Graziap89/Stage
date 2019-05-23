@@ -2,15 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { HeroDetailComponent } from './hero-detail/hero-detail.component';
-import { HeroesComponent } from './heroes/heroes.component';
-import { HeroSearchComponent } from './hero-search/hero-search.component';
-import { MessagesComponent } from './messages/messages.component';
 import {RestService} from './rest.service';
 import {ChartModule} from 'angular2-chartjs';
 import { ChartDemoComponent } from './ng2-charts/chart-demo.component';
@@ -22,6 +15,8 @@ import { Ng2Component } from './ng2/ng2.component';
 import {NgDygraphsModule} from 'ng-dygraphs';
 import { NgDygraphsComponent } from './ng-dygraphs/ng-dygraphs.component';
 
+import {stompConfig} from './my-rx-stomp.config';
+import {StompConfig, StompService} from '@stomp/ng2-stompjs';
 @NgModule({
   imports: [
     BrowserModule,
@@ -29,21 +24,10 @@ import { NgDygraphsComponent } from './ng-dygraphs/ng-dygraphs.component';
     AppRoutingModule,
     HttpClientModule,
     ChartModule,
-    NgDygraphsModule,
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    // Remove it when a real server is ready to receive requests.
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    NgDygraphsModule
   ],
   declarations: [
     AppComponent,
-    DashboardComponent,
-    HeroesComponent,
-    HeroDetailComponent,
-    MessagesComponent,
-    HeroSearchComponent,
     ChartDemoComponent,
     SidebarComponent,
     HeaderComponent,
@@ -52,7 +36,11 @@ import { NgDygraphsComponent } from './ng-dygraphs/ng-dygraphs.component';
     Ng2Component,
     NgDygraphsComponent
   ],
-  providers: [RestService],
+  providers: [RestService,
+    StompService,
+    { provide: StompConfig,
+      useValue: stompConfig
+    }],
   bootstrap: [ AppComponent ]
 })
 export class AppModule { }
