@@ -16,8 +16,19 @@ export class NgDygraphsComponent implements OnInit, AfterViewInit{
 
   received = '';
 
+  data = "2011-01-01," + 0 + "\n" ;
+
   private onData = ((message: Message) => {
-    this.received += message.body + ', ';
+    //serie1_2019-6-20,54
+
+    if(message && message.body) {
+      this.received += message.body + ', ';
+      const value = message.body.split("_")[1];
+      this.data+= value.split(",")[0] + "," + value.split(",")[1] + "\n";
+      this.updateChart();
+      this.sleep(1000);
+    }
+
   });
 
   private onStateChange = (state => {
@@ -34,12 +45,16 @@ export class NgDygraphsComponent implements OnInit, AfterViewInit{
   }
 
   ngAfterViewInit(): void {
-   new Dygraph(
-     document.getElementById("graphdiv"),
-     "Date,Temperature\n" +
-      "2008-05-07,75\n" +
-      "2008-05-08,70\n" +
-      "2008-05-09,80\n"
-    );
+    this.updateChart();
   }
+
+  updateChart(){
+    new Dygraph(
+      document.getElementById("graphdiv"),
+      this.data
+    );
+
+  }
+
+  sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms));}
 }

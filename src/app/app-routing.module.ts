@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: 'ng2-charts', component: ChartDemoComponent},
   { path: '', component: HomeComponent},
   { path: 'd3-charts', component: D3ChartsComponent},
-  {path: 'ng-dygraphs', component: NgDygraphsComponent}
+  { path: 'ng-dygraphs', component: NgDygraphsComponent}
 ];
 
 @NgModule({
