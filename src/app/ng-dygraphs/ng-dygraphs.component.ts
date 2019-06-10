@@ -56,5 +56,6 @@ export class NgDygraphsComponent implements OnInit, AfterViewInit{
 
   }
 
-  sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms));}
+  sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms));
+  }
 }
