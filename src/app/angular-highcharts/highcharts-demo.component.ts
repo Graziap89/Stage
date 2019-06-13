@@ -55,7 +55,7 @@ export class HighchartsDemoComponent implements OnInit, AfterViewInit {
         {
           name: 'Tokyo',
           data: (function() {
-            // generate an array of random data
+            // generate an array1 of random data
             var data = [], time = (new Date()).getTime(), i;
             for (i = -11; i <= 0; i += 1) {
               data.push(

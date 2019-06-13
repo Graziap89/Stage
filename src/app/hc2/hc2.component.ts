@@ -9,66 +9,79 @@ import * as Highcharts from 'highcharts';
 })
 export class Hc2Component implements OnInit {
   h = Highcharts;
-  array = Array<number>();
-
+  array1 = Array<number>();
+  array2 = Array<number>();
   Options = {};
-
-  seriesany:any =[{
-    name: 'Random data',
-    data: (function () {
-      // generate an array of random data
-      var data = [],
-        time = (new Date()).getTime();
-
-      for (let i = -20; i < 0; i += 1) {
-        data.push({
-          x: time + i * 1000,
-          y: Math.random()
-        });
-      }
-      console.log("prov", data);
-      return data;
-    }())
-  }];
 
   constructor() {
   }
 
-  public fillArray() {
+  public getrandomseries() {
+    return {
+    name: 'Random data',
+    data: (function () {
+    // generate an array1 of random data
+    var data = [],
+    time = (new Date()).getTime();
+
+    for (let i = -20; i < 0; i += 1) {
+    data.push({
+                x: time + i * 1000,
+    y: Math.random()
+  });
+}
+console.log("prov", data);
+return data;
+}()),
+      dashStyle: 'longdash',
+      enabled: 'false'
+};
+  }
+
+  public fillArray(): Array<number> {
+    const array = Array<number>();
     for (let j = 0; j <= 5; j += 1) {
-      this.array.push( Math.random());
+      array.push( Math.random());
     }
+    return array;
   }
 
 
   ngOnInit() {
-    this.fillArray();
-    console.log("array: ", this.array);
-
-    var k= (this.array).pop();
-    console.log("k: ", k);
-    this.data(this.array);
+    this.array1 = this.fillArray();
+    this.array2 = this.fillArray();
+    this.data(this.array1, this.array2);
   }
 
 
-  public data(array:Array<number>): void {
+  public data(array1:Array<number>, array2:Array<number>): void {
 
-    //Highcharts.chart('c', {
+
     this.Options ={
       chart: {
         type: 'spline',
         marginRight: 10,
+
         events: {
           load: function () {
 
             // set up the updating of the chart each second
-            var series = this.series[0];
+            var series1 = this.series[0];
+            var series2 = this.series[1];
             setInterval(function () {
-              var getted = array.pop();
+              var getted = array1.pop();
               if(getted){
                 var x = (new Date()).getTime(), // current time
                   y = getted;
-                series.addPoint([x, y], true, true);
+                series1.addPoint([x, y], true, true);
+              }
+
+
+              getted = array2.pop();
+              if(getted){
+                var x = (new Date()).getTime(), // current time
+                  y = getted;
+                series2.addPoint([x, y], true, true);
               }
             }, 1000);
           }
@@ -106,7 +119,18 @@ export class Hc2Component implements OnInit {
       exporting: {
         enabled: false
       },
-      series: this.seriesany
+      plotOptions: {
+        series: {
+          marker: {
+            enabled: false
+          }
+        }
+      },
+      series:[
+
+          this.getrandomseries(),
+          this.getrandomseries()
+      ]
     };
   }
 }
