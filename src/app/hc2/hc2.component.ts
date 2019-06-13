@@ -14,7 +14,8 @@ export class Hc2Component implements OnInit {
   h = Highcharts;
   array1 = Array<number>();
   array2 = Array<number>();
-  //d = Array<number>();
+  array3 = Array<number>();
+  array4 = Array<number>();
   Options = {};
   received = '';
 
@@ -34,8 +35,11 @@ export class Hc2Component implements OnInit {
     if (message && message.body) {
       this.received += message.body + ', ';
       const value = message.body.split("_")[1];
-      if(message.body.includes("serie1")) this.array1.push(parseInt(value.split(",")[1]));
-      else if(message.body.includes("serie2")) this.array2.push(parseInt(value.split(",")[1]));
+      var v = parseInt(value.split(",")[1]);
+      if(message.body.includes("serie1")) this.array1.push(v);
+      else if(message.body.includes("serie2")) this.array2.push(v);
+      else if(message.body.includes("serie3")) this.array3.push(v);
+      //else if(message.body.includes("serie4")) this.array4.push(v);
       console.log(message.body);
       this.sleep(1000);
     }
@@ -51,44 +55,34 @@ export class Hc2Component implements OnInit {
         var data = [],
           time = (new Date()).getTime();
 
-        for (let i = -20; i < 0; i += 1) {
+        for (let i = -100; i < 0; i += 1) {
           data.push({
             x: time + i * 1000,
-            y: Math.random()
+            y: null
           });
         }
         //console.log("prov", data);
         return data;
-      }()),
-      dashStyle: 'longdash'
+      }())
+      //,dashStyle: 'longdash'
     };
   }
-
-  public fillArray(): Array<number> {
-    const array = Array<number>();
-    for (let j = 0; j <= 5; j += 1) {
-      array.push(Math.random());
-    }
-    return array;
-  }
-
 
   ngOnInit() {
     this.websocketService.connectWebSocket();
     this.datasubscription = this.websocketService.getSocketDataObservable().subscribe(this.onData);
-    this.array1 = this.fillArray();
-    this.array2 = this.fillArray();
-    this.data(this.array1, this.array2);
+    this.data(this.array1, this.array2,this.array3,this.array4);
   }
 
 
-  public data(array1: Array<number>, array2: Array<number>): void {
+  public data(array1: Array<number>, array2: Array<number>,array3: Array<number>, array4: Array<number>): void {
 
 
     this.Options = {
       chart: {
         type: 'spline',
         marginRight: 10,
+        marginLeft: -2000,
 
         events: {
           load: function() {
@@ -96,6 +90,9 @@ export class Hc2Component implements OnInit {
             // set up the updating of the chart each second
             var series1 = this.series[0];
             var series2 = this.series[1];
+            var series3 = this.series[2];
+            var series4 = this.series[3];
+
             setInterval(function() {
               var getted = array1.pop();
               if (getted) {
@@ -111,6 +108,21 @@ export class Hc2Component implements OnInit {
                   y = getted;
                 series2.addPoint([x, y], true, true);
               }
+
+              getted = array3.pop();
+              if (getted) {
+                var x = (new Date()).getTime(), // current time
+                  y = getted;
+                series3.addPoint([x, y], true, true);
+              }
+
+              getted = array4.pop();
+              if (getted) {
+                var x = (new Date()).getTime(), // current time
+                  y = getted;
+                series4.addPoint([x, y], true, true);
+              }
+
             }, 1000);
           }
         }
@@ -124,8 +136,7 @@ export class Hc2Component implements OnInit {
         text: 'Live random data'
       },
       xAxis: {
-        type: 'datetime',
-        tickPixelInterval: 150
+        type: 'datetime'
       },
       yAxis: {
         title: {
@@ -155,6 +166,8 @@ export class Hc2Component implements OnInit {
         }
       },
       series: [
+        this.getrandomseries(),
+        this.getrandomseries(),
         this.getrandomseries(),
         this.getrandomseries()
       ]
