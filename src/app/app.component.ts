@@ -10,9 +10,7 @@ export class AppComponent implements AfterViewInit {
 
   constructor() {
   }
-
-
-  ngAfterViewInit(): void{
+  ngAfterViewInit(): void {
 
   }
 

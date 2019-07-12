@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {Router} from '@angular/router';
 
 @Component({
@@ -6,12 +6,14 @@ import {Router} from '@angular/router';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss']
 })
-export class SidebarComponent implements OnInit {
-  Promise: Promise<any>
+export class SidebarComponent implements AfterViewInit {
+  screenHight: number = 1000;
+
 
   constructor(private router: Router) { }
 
-  ngOnInit() {
+  ngAfterViewInit(): void {
+    this.screenHight = screen.height;
   }
 
 }
